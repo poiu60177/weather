@@ -31,11 +31,11 @@
             --color_grey_cloud: #ccc;
 
             --color_hot: rgb(247, 138, 75);
-            --color_hot_night: rgb(134, 94, 47);
+
             --color_cool: rgba(108, 177, 255);
-            --color_cool_night: rgb(42, 57, 75);
+
             --color_confort: rgb(141, 194, 141);
-            --color_confort_night: rgb(45, 85, 45);
+
         }
 
         .sunny {
@@ -124,11 +124,23 @@
 
         }
 
-        nav div {
-            display: flex;
-            align-content: center;
+        .btn {
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 12px;
+            font-size: 12px;
+            text-align: center;
         }
 
+        button {
+            display: none;
+        }
+
+        .btn:hover {
+            background-color: rgb(160, 205, 241);
+            color: black;
+        }
 
         body::-webkit-scrollbar {
             display: none;
@@ -140,13 +152,8 @@
             padding: 0px 50px;
             display: flex;
 
-            background: rgb(71, 98, 105);
-            background: linear-gradient(180deg, rgb(47, 72, 78) 0%, rgb(28, 60, 90) 54%, rgba(18, 83, 152, 1) 100%);
-        }
-
-        main.night {
-            background: rgb(34, 34, 84);
-            background: linear-gradient(180deg, rgba(34, 34, 84, 1) 0%, rgba(73, 73, 94, 1) 65%, rgba(113, 120, 121, 1) 100%);
+            background: rgb(177, 232, 247);
+            background: linear-gradient(180deg, rgba(177, 232, 247, 1) 0%, rgb(100, 165, 226) 54%, rgba(18, 83, 152, 1) 100%);
         }
 
         main::-webkit-scrollbar {
@@ -164,7 +171,7 @@
         .card {
             width: 300px;
             height: 400px;
-
+            background-color: rgb(235, 232, 228);
             display: flex;
             flex-direction: column;
             margin: 0 5px 20px;
@@ -176,18 +183,10 @@
 
         }
 
-        main.night .card {
-            color: white;
-        }
-
         .picture {
-            width: 100%;
+            width: 300px;
             height: 250px;
             position: relative;
-        }
-
-        main.night .hot {
-            background-color: var(--color_hot_night);
         }
 
         .hot {
@@ -196,21 +195,9 @@
 
         }
 
-        main.night .comfort {
-
-            background-color: var(--color_confort_night);
-
-        }
-
         .comfort {
 
             background-color: var(--color_confort);
-
-        }
-
-        main.night .cold {
-
-            background-color: var(--color_cool_night);
 
         }
 
@@ -236,7 +223,7 @@
         }
 
         .text-content {
-            width: 100%;
+            width: 300px;
             height: 150px;
             display: flex;
             flex-direction: column;
@@ -262,72 +249,19 @@
             z-index: 50;
 
         }
-
-        @media(max-width:1100px){
-            nav{
-                
-                font-size: 16px;
-            }
-            .card{
-                width: 200px;
-                height: 300px;
-            }
-            .text-content{
-                height: 100px;
-                font-size: 12px;
-                line-height: 20px;
-            }
-        }
-        @media(max-width:803px){
-            nav{
-                padding: 0;
-                height: 100px;
-                font-size: 16px;
-                flex-direction: column;
-                justify-content: space-around;
-            }
-            nav div{
-                font-size: 20px;
-            }
-            nav div:nth-child(2){
-                order: 3;
-                font-size: 14px;
-                display: flex;
-                flex-direction: column;
-                padding-bottom: 5px;
-            }
-            main{
-                margin-top: 100px;
-            }
-            .card-group{
-                display: flex;
-                justify-content: center;
-            }
-            .card{
-                width: 200px;
-            }
-        } 
-        @media(max-width:550px){
-            .card{
-                width: 300px;
-            }
-        }
-      
     </style>
 </head>
 
 <body>
     <nav>
         <div class="date"></div>
-        <div>
-            <span>選擇想查看的時間：</span><select name="date_selector" id="select">
-                <option value="0" id="label1" selected></option>
-                <option value="1" id="label2"></option>
-                <option value="2" id="label3"></option>
-            </select>
-
-        </div>
-
+        
+        <button id='btn1' onclick="area(0)"></button>
+        <label for="btn1" id="label1" class="btn">本日</label>
+        <button id='btn2' onclick="area(1)"></button>
+        <label for="btn2"  id="label2" class="btn">本日稍晚</label>
+        <button id='btn3' onclick="area(2)"></button>
+        <label for="btn3" id="label3" class="btn">明日</label>
         <div class="time"></div>
 
     </nav>
@@ -339,12 +273,10 @@
 
     </main>
     <script>
-
-
         var nav = document.querySelector('nav')
         var date = document.querySelector('.date')
         var time = document.querySelector('.time')
-        var main = document.querySelector('main')
+
 
 
 
@@ -362,9 +294,7 @@
                 Hourdisplay = Now_Hour
             }
 
-            if (Now_Hour > 18 || Now_Hour < 6) {
-                main.classList.add('night')
-            }
+
 
             if (Now_Min < 10) {
                 Mindisplay = '0' + Now_Min
@@ -410,10 +340,10 @@
                 tag3 = time_tag[0].weatherElement[0].time[2].startTime
                 tag3_2 = time_tag[0].weatherElement[0].time[2].endTime
 
-                label1.innerHTML = `<span>${tag1}</span><br><span>~</span><br><span>${tag1_2}</span>`;
-                label2.innerHTML = `<span>${tag2}</span><br><span>~</span><br><span>${tag2_2}</span>`;
-                label3.innerHTML = `<span>${tag3}</span><br><span>~</span><br><span>${tag3_2}</span>`;
-
+              label1.innerHTML = `<span>${tag1}</span><br><span>~</span><br><span>${tag1_2}</span>`;
+              label2.innerHTML = `<span>${tag2}</span><br><span>~</span><br><span>${tag2_2}</span>`;
+              label3.innerHTML = `<span>${tag3}</span><br><span>~</span><br><span>${tag3_2}</span>`;
+                
 
             });
 
@@ -421,14 +351,9 @@
 
 
 
-        var date_selector = document.querySelector('#select')
 
-        area()
-        date_selector.addEventListener('change', area)
 
-        function area() {
-            console.log(date_selector.value);
-            var i = date_selector.value
+        function area(i) {
 
             var card_group = document.querySelector('.card-group')
             card_group.innerHTML = ""
@@ -657,7 +582,7 @@
 
                         })
                         element.addEventListener('mouseout', function (e) {
-
+                            console.log('安安');
                             this.classList.remove('card_transition')
 
                         })
